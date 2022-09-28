@@ -39,10 +39,10 @@ Resources:
       Runtime: python3.9
       Events:
         NFLF: 
-        Type: Api
-        Properties:
-          Path: /number
-          Method: get
+          Type: Api
+          Properties:
+            Path: /number
+            Method: get
 
   StudentTable:
     Type: AWS::Serverless::SimpleTable
@@ -59,7 +59,7 @@ Resources:
         WriteCapacityUnits: 1
 
   CreateStudent:
-    Type: AWS::Serverless::Function:
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
       Handler: app.createStudent
@@ -87,3 +87,6 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  CreateStudent:
+    Description: "Api for createStudent"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/createStudent"

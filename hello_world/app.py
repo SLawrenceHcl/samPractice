@@ -24,13 +24,13 @@ def lambda_handler2(event, context):
         }),
     }
 
-def createStudent(message, context):
-    if('body' not in message or
-        message['httpMethod'] != 'POST'):
+def createStudent(event, context):
+    if('body' not in event or
+        event['httpMethod'] != 'POST'):
         return {
             'statusCode': 400,
             'headers': {},
-            'body': json.dumps({'msg': 'Bad Request'})
+            'body': json.dumps({'msg': 'Bad Request not a post?'})
         }
     
     table_name = os.environ.get('TABLE', "Student")
@@ -42,7 +42,7 @@ def createStudent(message, context):
     )
 
     table = student_table.Table(table_name)
-    activity = json.loads(message['body'])
+    activity = json.loads(event['body'])
 
     params = {
         'id': str(uuid.uuid4()),
