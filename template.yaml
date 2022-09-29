@@ -48,12 +48,12 @@ Resources:
     Type: AWS::Serverless::SimpleTable
     Properties:
       TableName: Student
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: firstName
-          KeyType: HASH
+      # AttributeDefinitions:
+      #   - AttributeName: id
+      #     AttributeType: S
+      # KeySchema:
+      #   - AttributeName: firstName
+      #     KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1

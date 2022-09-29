@@ -25,15 +25,13 @@ def lambda_handler2(event, context):
     }
 
 def createStudent(event, context):
-    if('body' not in event or
-        event['httpMethod'] != 'POST'):
+    if('body' not in event or event['httpMethod'] != 'POST'):
         return {
             'statusCode': 400,
             'headers': {},
-            'body': json.dumps({'msg': 'Bad Request not a post?'})
-        }
-    
-    table_name = os.environ.get('TABLE', "Student")
+            'body': json.dumps({'msg': 'Bad Request not a post or no body?'})
+        }  
+    table_name = os.environ.get('TABLE', 'Student')
     region = os.environ.get('REGION', 'us-west-1')
 
     student_table = boto3.resource(
@@ -49,7 +47,7 @@ def createStudent(event, context):
         'studentName': activity['studentName']
     }
 
-    response = table.put_item(
+    response = table.put_student(
         TableName=table_name,
         Student=params
     )
@@ -58,5 +56,5 @@ def createStudent(event, context):
     return{
         'statusCode': 201,
         'headers': {},
-        'body': json.dumps({'msg': 'New Item Created'})
+        'body': json.dumps({'msg': 'New Student Created'})
     }
