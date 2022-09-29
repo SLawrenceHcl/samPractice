@@ -59,19 +59,46 @@ def createStudent(event, context):
         'body': json.dumps({'msg': 'New Student Created'})
     }
 
-    client = boto3.client('dynamodb')
+    
 
 def handler(event, context):
+  client = boto3.client('dynamodb')
+  activity = json.loads(event['body'])
   data = client.put_item(
     TableName='Student',
     Item={
-        'id': str(uuid.uuid4()),
+        'id': {
+           'S': activity['studentName']
+        }
     }
   )
 
   response = {
       'statusCode': 200,
-      'body': 'successfully created student!',
+      'body': json.dumps(data),
+      'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+  }
+  
+  return response
+
+def handler_get(event, context):
+  client = boto3.client('dynamodb')
+  activity = json.loads(event['body'])
+  data = client.get_item(
+    TableName='Student',
+    Key={
+        'id': {
+           'S': activity['id']
+        }
+    }
+  )
+
+  response = {
+      'statusCode': 200,
+      'body': json.dumps(data),
       'headers': {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
