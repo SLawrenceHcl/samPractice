@@ -44,7 +44,7 @@ Resources:
             Path: /number
             Method: get
 
-  StudentTable:
+  Student:
     Type: AWS::Serverless::SimpleTable
     Properties:
       TableName: Student
@@ -72,7 +72,24 @@ Resources:
             Method: post
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref StudentTable
+            TableName: !Ref Student
+
+  CreateStudent2:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.handler
+      Runtime: python3.9
+      Events:
+        CreateStudent:
+          Type: Api
+          Properties:
+            Path: /createStudentId
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Student
+  
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
