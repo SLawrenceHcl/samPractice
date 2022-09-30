@@ -74,22 +74,53 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref Student
 
-  CreateStudent2:
+  GetStudent:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
-      Handler: app.handler
+      Handler: app.handler_create
       Runtime: python3.9
       Events:
         CreateStudent:
           Type: Api
           Properties:
-            Path: /createStudentId
-            Method: post
+            Path: /getStudent
+            Method: get
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Student
   
+  UpdateStudent:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.handler_create
+      Runtime: python3.9
+      Events:
+        CreateStudent:
+          Type: Api
+          Properties:
+            Path: /updateStudent
+            Method: put
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Student
+
+  DeleteStudent:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.handler_create
+      Runtime: python3.9
+      Events:
+        CreateStudent:
+          Type: Api
+          Properties:
+            Path: /deleteStudent
+            Method: delete
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Student  
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
