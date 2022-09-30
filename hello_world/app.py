@@ -63,19 +63,19 @@ def createStudent(event, context):
 
 def handler(event, context):
   client = boto3.client('dynamodb')
-  activity = json.loads(event['body'])
+  body = json.loads(event['body'])
   data = client.put_item(
     TableName='Student',
     Item={
         'id': {
-           'S': activity['studentName']
+           'S': body['id']
         }
     }
   )
 
   response = {
       'statusCode': 200,
-      'body': json.dumps(data),
+      'body': str(body['id']),
       'headers': {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
