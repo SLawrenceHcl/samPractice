@@ -68,7 +68,7 @@ def handler_getAll(event, context):
   
   return response
 
-def handler_create2(event, context):
+def handler_get(event, context):
   client = boto3.client('dynamodb')
   body = json.loads(event['body'])
   data = client.get_item(
