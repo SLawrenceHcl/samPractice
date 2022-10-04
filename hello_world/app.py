@@ -42,10 +42,10 @@ def handler_create(event, context):
         }
     }
   )
-
+  print(data)
   response = {
       'statusCode': 200,
-      'body': str(body['id']),
+      'body': str(data),
       'headers': {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
@@ -54,7 +54,23 @@ def handler_create(event, context):
   
   return response
 
-def handler_get(event, context):
+def handler_getAll(event, context):
+  client = boto3.client('dynamodb')
+  data = client.scan(TableName='Student')
+#   print(str(client.describe_table(TableName='Student')))
+
+  response = {
+      'statusCode': 200,
+      'body': json.dumps(data),
+      'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+  }
+  
+  return response
+
+def handler_create2(event, context):
   client = boto3.client('dynamodb')
   body = json.loads(event['body'])
   data = client.get_item(
@@ -65,10 +81,10 @@ def handler_get(event, context):
         }
     }
   )
-
+  print(data)
   response = {
       'statusCode': 200,
-      'body': json.dumps(data),
+      'body': str(data),
       'headers': {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'

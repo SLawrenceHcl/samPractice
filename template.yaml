@@ -62,7 +62,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
-      Handler: app.createStudent
+      Handler: app.handler_create
       Runtime: python3.9
       Events:
         CreateStudent:
@@ -74,18 +74,34 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref Student
 
-  GetStudent:
+  GetStudents:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
-      Handler: app.handler_create
+      Handler: app.handler_getAll
       Runtime: python3.9
       Events:
         CreateStudent:
           Type: Api
           Properties:
-            Path: /getStudent
+            Path: /getStudents
             Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Student
+
+  CreateStudent2:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.handler_create2
+      Runtime: python3.9
+      Events:
+        CreateStudent:
+          Type: Api
+          Properties:
+            Path: /createStudent2
+            Method: post
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Student
@@ -94,7 +110,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
-      Handler: app.handler_create
+      Handler: app.handler_update
       Runtime: python3.9
       Events:
         CreateStudent:
@@ -110,7 +126,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
-      Handler: app.handler_create
+      Handler: app.handler_delete
       Runtime: python3.9
       Events:
         CreateStudent:
@@ -138,3 +154,4 @@ Outputs:
   CreateStudent:
     Description: "Api for createStudent"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/createStudent"
+
