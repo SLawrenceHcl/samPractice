@@ -42,7 +42,6 @@ def handler_create(event, context):
         }
     }
   )
-
   response = {
       'statusCode': 200,
       'body': str(body),
@@ -69,16 +68,20 @@ def handler_getAll(event, context):
   
   return response
 
-def handler_get(event, context):
+def handler_create2(event, context):
   client = boto3.client('dynamodb')
   body = json.loads(event['body'])
-  print(str(body['id']))
-  response = client.get_item(TableName='Student',Key={'id': {'S': str(body['id'])}})
-  response = client.get_item(TableName='Student',Key={'id': {'S': "3"}})
-
+  data = client.get_item(
+    TableName='Student',
+    Key={
+        'id': {
+           'S': body['id']
+        }
+    }
+  )
   response = {
       'statusCode': 200,
-      'body': json.dumps(response),
+      'body': str(data),
       'headers': {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
